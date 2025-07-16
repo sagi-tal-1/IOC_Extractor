@@ -1,0 +1,59 @@
+# Filebeat Configuration for Windows Log Files
+# Generated on 07/15/2025 23:38:22
+filebeat.inputs:
+- type: filestream
+  enabled: true
+  paths:
+    - C:\logs\*.log
+    - C:\logs\**\*.log
+    - C:\Windows\Logs\*.log
+    - C:\Windows\Logs\**\*.log
+  # Add any other options (fields, multiline, etc.) here as needed
+- type: winlog
+  enabled: true
+  name: Security
+  event_id: 4625
+
+# Output to Elasticsearch
+output.elasticsearch:
+  hosts: ["https://my-deployment-90153e.es.us-east-1.aws.found.io:443"]
+  username: "superuser2"
+  password: "Wsag2AZU!@#qwe!@#"
+  protocol: "https"
+  ssl.verification_mode: "certificate"
+  compression_level: 3
+  bulk_max_size: 1000
+  worker: 2
+  index: "siem-os-%{+yyyy.MM.dd}"
+
+# Template Configuration (moved outside of output.elasticsearch)
+setup.template.name: "siem-os"
+setup.template.pattern: "siem-os-*"
+setup.template.enabled: true
+
+# Kibana Configuration
+setup.kibana:
+  host: "https://my-deployment-90153e.kb.us-east-1.aws.found.io"
+  username: "superuser2"
+  password: "Wsag2AZU!@#qwe!@#"
+
+# Logging Configuration
+logging.level: info
+logging.to_files: true
+logging.files:
+  path: logs
+  name: filebeat
+  keepfiles: 7
+  permissions: 0644
+
+# Processing Configuration
+processors:
+- add_host_metadata:
+    when.not.contains.tags: forwarded
+
+# General Configuration
+name: "filebeat-windows-testlogs"
+tags: ["windows", "logs", "production"]
+fields:
+  datacenter: primary
+  environment: production

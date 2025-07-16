@@ -1,0 +1,37 @@
+# Ignore all .eml files (raw email data)
+*.eml
+
+# Ignore checkpoint and results directories/files
+checkpoints/
+*.db
+*.json
+*.ndjson
+
+# Ignore log files
+*.log
+*.log.*
+ioc_extractor.log
+
+# Ignore Python cache and virtualenvs
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+ENV/
+
+# Ignore OS/system files
+.DS_Store
+Thumbs.db
+
+# Do NOT ignore Python scripts and config
+!*.py
+!requirements.txt
+!.env
+!README.md test/
+test/
+Desktop/
+Lennox foundation/
+terraform/
+test/
